@@ -9,23 +9,33 @@ import SwiftUI
 
 struct AboutView: View {
     var body: some View {
+        ZStack{
+            Image("homeImage")
+                .resizable()
+                .edgesIgnoringSafeArea(.top)
+                .aspectRatio(contentMode: .fill)
+        }
         VStack {
             Text("About Little Lemon")
                 .bold()
                 .font(.largeTitle)
                 .foregroundStyle(Color.green)
            
-            Text("Little Lemon is a cozy Mediteranan restaurant")
+            Text("Little Lemon is a cozy Mediteranan Restaurant")
                 .bold()
             Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore")
+                .padding()
+
             HStack{
                 Image(systemName: "fork.knife")
-                    .foregroundStyle(.yellow)
+                    .padding()
                 Image(systemName: "leaf")
-                    .foregroundStyle(.yellow)
+                    .padding()
                 Image(systemName: "map")
-                    .foregroundStyle(.yellow)
+                    .padding()
                     }
+            .foregroundStyle(.brown)
+            .font(.system(size:25))
             
                 }
     

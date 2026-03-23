@@ -9,16 +9,16 @@ import SwiftUI
 
 struct ReservationForm: View {
     //constants
-    let restaurantName = "Little Lemon"
+    let restaurantName: String = "Little Lemon"
     let maxGuess:Int = 10
     let maxChildren:Int = 5
     
     @State private var userName:String=""
-    @State private var guestCount=1
+    @State private var guestCount:Int=1
     @State private var phoneNumber: String = ""
     @State private var previewText:String="no preview yet"
     @State private var occasionInfo:String=""
-    @State private var childCount=0
+    @State private var childCount:Int=0
     
     
     var body: some View {
@@ -48,6 +48,30 @@ struct ReservationForm: View {
                 
                 //--reservation details--
                 Stepper("Guests: \(guestCount)", value: $guestCount, in: 1...maxGuess)
+                
+                if userName.isEmpty{
+                    HStack{
+                        Image(systemName:"exclamationmark.circle.fill")
+                            .foregroundColor(.brown)
+                        Text("Please enter a name.")
+                            .font(.footnote)
+                            .foregroundColor(.brown)
+                            .bold()
+                    }
+                    .listRowBackground(Color.yellow.opacity(0.2))
+                }
+                if guestCount >= 8{
+                    HStack{
+                        Image(systemName:"exclamationmark.circle.fill")
+                            .foregroundColor(.brown)
+                        Text("Large group - please call ahead.")
+                            .font(.footnote)
+                            .foregroundColor(.brown)
+                            .bold()
+                        }
+                    .listRowBackground(Color.yellow.opacity(0.2))
+                }
+                
 
             }
             
@@ -70,16 +94,22 @@ struct ReservationForm: View {
             //--action--
             Section(header:Text("Actions")){
                 Button("Preview Reservation"){
-                    previewText =
+                    if childCount <= 0{
+                        previewText="""
+                        Name: \(userName)
+                        Guest: \(guestCount)
+                        Phone: \(phoneNumber)
+                        Occassion: \(occasionInfo)
                     """
-                    Name: \(userName)
-                    Guest: \(guestCount)
-                    Phone: \(phoneNumber)
-                    Children: \(childCount)
-                    Occassion: \(occasionInfo)
-                    Children: \(childCount)
-                    """
-                }
+                    }else {previewText="""
+                        Name: \(userName)
+                        Guest: \(guestCount)
+                        Phone: \(phoneNumber)
+                        Children: \(childCount)
+                        Occassion:\(occasionInfo)
+                        """}
+
+                }.disabled(userName.isEmpty)
             }
                 
             //--preview--
