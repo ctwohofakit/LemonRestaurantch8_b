@@ -16,9 +16,37 @@ struct ReservationForm: View {
     @State private var userName:String=""
     @State private var guestCount:Int=1
     @State private var phoneNumber: String = ""
-    @State private var previewText:String="no preview yet"
+    @State private var previewText:String=""
     @State private var occasionInfo:String=""
     @State private var childCount:Int=0
+    
+    //1) Label got guest or guests
+    func guestLabel(_ count:Int)-> String{
+        count == 1 ? "Guest":"Guests"
+    }
+    
+    //2) total adult:$15.00,  child:$8.00
+    func estimateTotal(adults:Int, children:Int)->Double{
+        let adultPrice = 15.00
+        let childrenPrice = 8.00
+        
+    return Double(adults)*adultPrice+Double(children)*childrenPrice
+    }
+    
+    
+    //3) validation of the phone number
+    func isValidPhone(phone: String) -> Bool{
+        let digits = phone.filter {$0.isNumber}
+        return digits.count==10
+    }
+    
+    //4) Label for Child or Children
+    func childLabel(_ count:Int)-> String{
+        count <= 1 ? "Child":"Children"
+    }
+    
+    
+    
     
     
     var body: some View {
@@ -48,6 +76,7 @@ struct ReservationForm: View {
                 
                 //--reservation details--
                 Stepper("Guests: \(guestCount)", value: $guestCount, in: 1...maxGuess)
+                    .bold()
                 
                 if userName.isEmpty{
                     HStack{
@@ -59,6 +88,7 @@ struct ReservationForm: View {
                             .bold()
                     }
                     .listRowBackground(Color.yellow.opacity(0.2))
+                    .listRowSeparator(.hidden)
                 }
                 if guestCount >= 8{
                     HStack{
@@ -79,6 +109,29 @@ struct ReservationForm: View {
             Section(header:Text("Contact")){
                 TextField("Phone", text: $phoneNumber)
                     .keyboardType(.numberPad)
+                
+                //using isValidPhone()
+                if !phoneNumber.isEmpty{
+                    if isValidPhone(phone: phoneNumber){
+                        Text("Valid phone number")
+                            .foregroundColor(.blue)
+                            .listRowBackground(Color.blue.opacity(0.2))
+                            .font(.footnote)
+                            .bold()
+                    }else{
+                        HStack{
+                            Image(systemName:"exclamationmark.circle.fill")
+                                .foregroundColor(.brown)
+                            Text("Please only enter 10 digits.")
+                                .foregroundColor(.brown)
+                                .font(.footnote)
+                                .bold()
+                        }
+                        .listRowBackground(Color.yellow.opacity(0.2))
+                        
+                        
+                    }
+                }
             }
             
             //--Optional info
@@ -87,6 +140,16 @@ struct ReservationForm: View {
                     .autocorrectionDisabled(false)
                     
                 Stepper("Children: \(childCount)",value:$childCount, in:0...maxChildren)
+                    .bold()
+                
+                if childCount > 0{
+                    Text("Kids menu available")
+                        .font(.footnote)
+                        .foregroundColor(.blue)
+                        .bold()
+                        .listRowBackground(Color.blue.opacity(0.1))
+                }
+                
             }
 
             
@@ -97,7 +160,7 @@ struct ReservationForm: View {
                     if childCount <= 0{
                         previewText="""
                         Name: \(userName)
-                        Guest: \(guestCount)
+                        \(guestLabel(guestCount)):\(guestCount)
                         Phone: \(phoneNumber)
                         Occassion: \(occasionInfo)
                     """
@@ -105,7 +168,7 @@ struct ReservationForm: View {
                         Name: \(userName)
                         Guest: \(guestCount)
                         Phone: \(phoneNumber)
-                        Children: \(childCount)
+                        \(childLabel(childCount)):\(childCount)
                         Occassion:\(occasionInfo)
                         """}
 
@@ -113,21 +176,63 @@ struct ReservationForm: View {
             }
                 
             //--preview--
-            Section(header: Text("Preview")){
-                Text(previewText)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                    .padding(.vertical,4)
-                    .textSelection(.enabled)
-        
+            if !previewText.isEmpty{
+                Section(header: Text("Preview")){
+                    Text(previewText)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                        .padding(.vertical,4)
+                        .textSelection(.enabled)
+                    
+                }
+            }
+            Section(header:Text("Summary")){
+                VStack{
+                    HStack{
+                        Spacer()
+                        Text("Reservation Summary")
+                            .font(.headline)
+                        Image(systemName:"text.magnifyingglass")
+                        Spacer()
+                    }
+
+                    
+                    //add the data
+                    HStack{
+                        Text("Name")
+                        Spacer()
+                        Text(userName)
+                    }//name
+                    HStack{
+                        Text(guestLabel(guestCount));Spacer();
+                        Text("\(guestCount)")
+                        
+                    }//adults
+                    HStack{//children
+                        Text(childLabel(childCount))
+                        Spacer()
+                        Text("\(childCount)")
+                    }
+                    //the estimate total
+                    HStack{
+                        Text("Estimate Total")
+                        Spacer()
+                        Text("$\(estimateTotal(adults:guestCount, children:childCount),specifier:"%.2f")")
+                            .bold()
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.08))
+                    .cornerRadius(12)
+                }
             }
             
-            
         }//form
-        
+        .navigationTitle("Reservation")
     }
 }
 
 #Preview {
-    ReservationForm()
+    NavigationStack{
+        ReservationForm()
+    }
 }
