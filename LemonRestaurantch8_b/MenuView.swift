@@ -14,7 +14,10 @@ struct MenuView: View {
         "Pasta":10.50,
         "Salad":8.00,
         "Soup":4.76,
-        "Steak":14.99
+        "Steak":14.99,
+        "Fresh toast":9.00,
+        "Omelette":18.86,
+        "Salmon":16.89
     ]
     
     
@@ -60,7 +63,7 @@ struct MenuView: View {
             HStack{
                 VStack{
                     Text("Total item: \(getTotalItem())")
-                    Text("Total price:")
+                   
                 }
                 
             }
