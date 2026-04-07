@@ -21,8 +21,8 @@ struct MenuView: View {
         "Salad":8.00,
         "Soup":4.76,
         "Steak":14.99,
-        "Fresh toast":9.00,
-        "Omelette":18.86,
+        "Toast":8.00,
+        "Omelette":14.86,
         "Salmon":16.89
     ]
     
@@ -46,15 +46,20 @@ struct MenuView: View {
             .sorted { $0.key < $1.key} // arry of (name, price)
             .map {(name: $0.key, price: $0.value)}// rename the tupple items
     }
-        
+    
+
     //Computed propert #2: display the affordableOnly(based on the toggle)
-    var diaplayedMenu:[(name:String, price:Double)]{
+    var displayedMenu:[(name:String, price:Double)]{
         if affordableOnly {
             return sortedMenu.filter { $0.price < 9 }
         }else{
             return sortedMenu
         }
     }
+    var filterCount:Int{
+        return displayedMenu.count
+    }
+    
     
     //function
     func getTotalItem()->Int{
@@ -134,9 +139,10 @@ struct MenuView: View {
                 if showMessage{
                     Text("Welcome to little lemon!")
                         .font(.headline)
-                        .foregroundColor(.green)
+                        .foregroundColor(.brown)
                         
                 }
+
                 
                 //view Dessert button
                 Button("View Desserts"){
@@ -158,16 +164,32 @@ struct MenuView: View {
             
             
             List{
-                ForEach(diaplayedMenu, id: \.name){name, price in
-                    HStack{
-                        Text(name)
-                        Spacer()
-                        Text("$ \(price, specifier:"%.2f")")
-                            .foregroundColor(.secondary)
-                        
-                    }
-                    
 
+                if affordableOnly{
+                    Text("Showing \(filterCount) items")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .listRowSeparator(.hidden)
+                }else{
+                    Text("Showing \(getTotalItem()) items")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .listRowSeparator(.hidden)
+                }
+            
+                ForEach(displayedMenu, id: \.name){name, price in
+                    MenuItemRowView(name:name, price:price)
+//                    HStack{
+//                        Text(name)
+//                        Spacer()
+//                    
+//                        Text("$ \(price, specifier:"%.2f")")
+//                            .foregroundColor(.secondary)
+//                        
+//                    }
+                
                     
                 }
             }
@@ -177,7 +199,7 @@ struct MenuView: View {
             Section{
                 VStack{
                     HStack{
-                        Text("Total item:")
+                        Text("Total menu items:")
                         Spacer()
                         Text("\(getTotalItem())")
                         

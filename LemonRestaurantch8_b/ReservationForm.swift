@@ -173,7 +173,12 @@ struct ReservationForm: View {
                         """}
 
                 }.disabled(userName.isEmpty)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .bold()
+
             }
+           
+           
                 
             //--preview--
             if !previewText.isEmpty{

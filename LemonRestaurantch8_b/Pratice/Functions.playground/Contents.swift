@@ -97,4 +97,41 @@ func deliveryTime(mintues:Double)->String{
 let msg2=deliveryTime(mintues:20)
 print(msg2)
 
+//---Practice for Session#3 ---
+func greetCustomer(name:String){
+    print("welcome, \(name)")
+}
 
+greetCustomer(name:"Alex")
+greetCustomer(name:"Kit")
+
+func printMenuItem(name:String, price: Double){
+    print("\(name) - $\(price)")
+}
+
+printMenuItem(name:"Pizza", price:9.99)
+printMenuItem(name:"Cake", price:6.55)
+
+func totalWithTax(price:Double)->Double{
+    return price * 1.16
+}
+
+let amount = totalWithTax(price: 10.0)
+print(amount)
+
+let menu=[
+    "Pizza":9.99,
+    "Soup":4.50,
+    "Steak":14.99
+]
+
+for (name, price) in menu {
+    printMenuItem(name:name,price:price)
+}
+
+func renderRow(name:String, price:Double){
+    print("Row -> \(name), $\(price)")
+}
+
+renderRow(name:"Taco", price:7.5)
+renderRow(name:"Steak", price:14.99)

@@ -29,11 +29,13 @@ struct DessertView: View {
             
             List{
                 ForEach(sortedMenu, id: \.key){name, price in
-                    HStack{
-                        Text(name)
-                        Spacer()
-                        Text("$\(price, specifier:"%.2f")")
-                    }
+                    MenuItemRowView(name:name, price:price)
+
+//                    HStack{
+//                        Text(name)
+//                        Spacer()
+//                        Text("$\(price, specifier:"%.2f")")
+//                    }
                     
                 }
             }
