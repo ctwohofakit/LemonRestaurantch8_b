@@ -26,8 +26,7 @@ struct MenuItemRowView: View {
             //desplay the premium badge if the price is greater than 14.00
             
             if price > 10{
-                PremiumBadgeView()
-                
+                PremiumBadgeView()                
             } else {
                 RegularBadgeView()
             }

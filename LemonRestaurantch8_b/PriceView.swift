@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PriceView: View {
     let price: Double
+    
     var priceColor: Color{
         if price > 10 {
             return .orange
@@ -21,11 +22,13 @@ struct PriceView: View {
         Text("$\(price, specifier:"%.2f")")
             .font(.headline)
             .foregroundColor(priceColor)
+            .bold()
     
     }
 }
 
 #Preview {
-    PriceView(price: 20.00)
     PriceView(price: 8.00)
+    PriceView(price: 20.00)
+    PriceView(price: 9.00)
 }

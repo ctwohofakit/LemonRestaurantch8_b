@@ -29,9 +29,9 @@ struct AboutView: View {
             HStack{
                 Image(systemName: "fork.knife")
                     .padding()
-                Image(systemName: "leaf")
+                Image(systemName: "calendar")
                     .padding()
-                Image(systemName: "map")
+                Image(systemName: "person.fill")
                     .padding()
                     }
             .foregroundStyle(.brown)

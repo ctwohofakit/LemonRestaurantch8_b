@@ -50,6 +50,17 @@ struct ReservationForm: View {
     
     
     var body: some View {
+        VStack{
+            Image(systemName:"calendar.circle.fill")
+                .font(.system(size:50))
+                .foregroundColor(.orange)
+            Text("Little Lemon")
+                .font(.title)
+                .fontWeight(.bold)
+            Text("Welcome to our restaurant app")
+                .foregroundColor(.gray)
+                .foregroundColor(.gray)
+        }
         Form{
             //--Header--
             Section{

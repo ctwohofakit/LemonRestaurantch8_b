@@ -122,14 +122,17 @@ struct MenuView: View {
        
         VStack{
             VStack{
-                Image("littleLemonLogo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 30)
-                
-                Text("Today' menu")
-                    .font(.title2)
-                    .bold()
+                Image(systemName:"fork.knife")
+                    .font(.system(size:30))
+                    .foregroundColor(.orange)
+                Text("Little Lemon")
+                    .font(.title)
+                    .fontWeight(.bold)
+                Text("Welcome to our restaurant app")
+                    .foregroundColor(.gray)
+                    .foregroundColor(.gray)
+            }
+            VStack{
                 VStack{
                     Toggle("show welcome message", isOn: $showMessage)
                     Toggle("Show affordable", isOn:$affordableOnly)
@@ -180,6 +183,7 @@ struct MenuView: View {
                 }
             
                 ForEach(displayedMenu, id: \.name){name, price in
+//                    MenuCardView(name:name, price:price)
                     MenuItemRowView(name:name, price:price)
 //                    HStack{
 //                        Text(name)
